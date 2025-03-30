@@ -18,6 +18,7 @@ class FieldRenderer:
         self._draw_static_players(screen)
         self._draw_stumps(screen)
         self._draw_labels(screen, font)
+        self._draw_common_positions(screen, font)
 
     def _draw_field(self, screen):
         pygame.draw.circle(screen, constants.FIELD_COLOR, self.center, self.radius)
@@ -77,3 +78,39 @@ class FieldRenderer:
 
         screen.blit(wk, (mid_x - wk.get_width() // 2, top_y - 25))
         screen.blit(bowler, (mid_x - bowler.get_width() // 2, bot_y + 10))
+
+    def _draw_common_positions(self, screen, font):
+        import math
+        from domain import config
+
+        base_positions = [
+            ("Third Man", -135, 0.95),
+            ("Point", -110, 0.5),
+            ("Cover", -90, 0.5),
+            ("Mid-Off", -45, 0.5),
+            ("Mid-On", 45, 0.5),
+            ("Mid-Wicket", 90, 0.5),
+            ("Square Leg", 110, 0.5),
+            ("Fine Leg", 135, 0.95),
+        ]
+
+        flip_x = config.BATTER_HANDEDNESS == "LHB"
+        positions = []
+
+        for label, angle_deg, frac in base_positions:
+            angle_rad = math.radians(angle_deg)
+
+            dx = math.sin(angle_rad) * self.radius * frac
+            dy = math.cos(angle_rad) * self.radius * frac
+
+            if flip_x:
+                dx = -dx  # only flip x-axis for LHB
+
+            x = int(self.center[0] + dx)
+            y = int(self.center[1] + dy)
+            positions.append((label, x, y))
+
+        for label, x, y in positions:
+            pygame.draw.circle(screen, (180, 180, 180), (x, y), self.ball_radius, 2)
+            text = font.render(label, True, (100, 100, 100))
+            screen.blit(text, (x - text.get_width() // 2, y - text.get_height() - 5))
