@@ -42,15 +42,20 @@ while running:
     screen.fill((200, 220, 255))
 
     pygame.draw.circle(screen, (0, 100, 0), field_center, field_radius, 0)
-
     draw_dashed_circle(screen, (255, 255, 255), field_center, inner_ring_radius, dash_length=15, gap_length=10, width=3)
-
     pitch_rect = pygame.Rect(0, 0, pitch_width, pitch_height)
     pitch_rect.center = field_center
     pygame.draw.rect(screen, (150, 75, 0), pitch_rect)
 
     top_of_pitch = (pitch_rect.centerx, pitch_rect.top)
     bottom_of_pitch = (pitch_rect.centerx, pitch_rect.bottom)
+
+    top_crease_y = pitch_rect.top + 25
+    bottom_crease_y = pitch_rect.bottom - 25
+    crease_half_len = pitch_width // 2 + 10
+
+    pygame.draw.line(screen, (0, 0, 0), (field_center[0] - crease_half_len, top_crease_y), (field_center[0] + crease_half_len, top_crease_y), 2)
+    pygame.draw.line(screen, (0, 0, 0), (field_center[0] - crease_half_len, bottom_crease_y), (field_center[0] + crease_half_len, bottom_crease_y), 2)
 
     pygame.draw.circle(screen, static_ball_color, top_of_pitch, ball_radius)
     pygame.draw.circle(screen, static_ball_color, bottom_of_pitch, ball_radius)
