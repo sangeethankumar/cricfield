@@ -20,8 +20,12 @@ screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 width, height = screen.get_size()
 pygame.display.set_caption("CricField")
 
+pygame.font.init()
+font = pygame.font.SysFont("Arial", 20, bold=True)
+
 ball_radius = 10
 ball_color = (255, 255, 255)
+static_ball_color = (255, 215, 0)  
 speed = 5
 clock = pygame.time.Clock()
 
@@ -38,11 +42,23 @@ while running:
     screen.fill((200, 220, 255))
 
     pygame.draw.circle(screen, (0, 100, 0), field_center, field_radius, 0)
+
     draw_dashed_circle(screen, (255, 255, 255), field_center, inner_ring_radius, dash_length=15, gap_length=10, width=3)
 
     pitch_rect = pygame.Rect(0, 0, pitch_width, pitch_height)
     pitch_rect.center = field_center
     pygame.draw.rect(screen, (150, 75, 0), pitch_rect)
+
+    top_of_pitch = (pitch_rect.centerx, pitch_rect.top)
+    bottom_of_pitch = (pitch_rect.centerx, pitch_rect.bottom)
+
+    pygame.draw.circle(screen, static_ball_color, top_of_pitch, ball_radius)
+    pygame.draw.circle(screen, static_ball_color, bottom_of_pitch, ball_radius)
+
+    wk_text = font.render("WK", True, (0, 0, 0))
+    bowler_text = font.render("Bowler", True, (0, 0, 0))
+    screen.blit(wk_text, (top_of_pitch[0] - wk_text.get_width() // 2, top_of_pitch[1] - 25))
+    screen.blit(bowler_text, (bottom_of_pitch[0] - bowler_text.get_width() // 2, bottom_of_pitch[1] + 10))
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
