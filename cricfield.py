@@ -2,8 +2,8 @@ import pygame
 
 pygame.init()
 
-width, height = 640, 480
-screen = pygame.display.set_mode((width, height))
+screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+width, height = screen.get_size()
 pygame.display.set_caption("CricField")
 
 ball_radius = 20
@@ -21,10 +21,14 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE:
+                running = False            
+
         elif event.type == pygame.MOUSEBUTTONDOWN:
             mouse_x, mouse_y = event.pos
 
-            if len(balls) < 11:
+            if len(balls) < 9:
                 balls.append({
                     "x": mouse_x,
                     "y": mouse_y,
