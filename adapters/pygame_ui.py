@@ -16,6 +16,8 @@ def run_game(fullscreen=True):
 
     WIDTH, HEIGHT = screen.get_size()
     pygame.display.set_caption("CricField")
+    icon = pygame.image.load("assets/icon.png").convert_alpha()
+    pygame.display.set_icon(icon)
 
     pygame.font.init()
     font = pygame.font.SysFont(constants.FONT_NAME, constants.FONT_SIZE, bold=True)
