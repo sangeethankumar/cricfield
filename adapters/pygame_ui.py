@@ -1,8 +1,9 @@
 import pygame
-from domain import constants
+from domain import constants, config
 from core.fielder_logic import FielderLogic
 from adapters.fielder_drawer import FielderDrawer
 from adapters.cricfield_design import FieldRenderer
+from adapters.hud_renderer import HUDRenderer  
 
 
 def run_game(fullscreen=True):
@@ -19,6 +20,7 @@ def run_game(fullscreen=True):
     pygame.font.init()
     font = pygame.font.SysFont(constants.FONT_NAME, constants.FONT_SIZE, bold=True)
 
+    # Geometry
     field_center = (WIDTH // 2, HEIGHT // 2)
     field_radius = HEIGHT // constants.FIELD_RADIUS_FACTOR
     inner_ring_radius = HEIGHT // constants.INNER_RING_RADIUS_FACTOR
@@ -28,6 +30,9 @@ def run_game(fullscreen=True):
     pitch_rect = pygame.Rect(0, 0, pitch_width, pitch_height)
     pitch_rect.center = field_center
 
+    # Initialize helpers
+    logic = FielderLogic()
+    renderer = FielderDrawer()
     field_renderer = FieldRenderer(
         field_center,
         field_radius,
@@ -35,8 +40,7 @@ def run_game(fullscreen=True):
         pitch_rect,
         constants.BALL_RADIUS
     )
-    logic = FielderLogic()
-    renderer = FielderDrawer()
+    hud = HUDRenderer(font)
 
     clock = pygame.time.Clock()
     running = True
@@ -64,7 +68,18 @@ def run_game(fullscreen=True):
         }
         logic.move_selected(keys, field_center, field_radius, inner_ring_radius)
 
-        renderer.draw_fielders(screen, logic.get_fielders())
+        # Draw fielders and HUD
+        fielders = logic.get_fielders()
+        renderer.draw_fielders(screen, fielders)
+
+        hud.draw(
+            screen,
+            fielders,
+            max_players=config.NUM_PLAYERS,
+            max_outer=config.NUM_OUTER_RING_PLAYERS,
+            field_center=field_center,
+            inner_ring_radius=inner_ring_radius
+        )
 
         pygame.display.flip()
         clock.tick(60)
