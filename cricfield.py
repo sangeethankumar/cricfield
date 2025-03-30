@@ -24,7 +24,7 @@ while running:
         elif event.type == pygame.MOUSEBUTTONDOWN:
             mouse_x, mouse_y = event.pos
 
-            if len(balls) < 2:
+            if len(balls) < 11:
                 balls.append({
                     "x": mouse_x,
                     "y": mouse_y,
