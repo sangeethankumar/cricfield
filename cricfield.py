@@ -1,20 +1,35 @@
+import math
 import pygame
 
 pygame.init()
 
 NUM_PLAYERS = 11
 
+def draw_dashed_circle(surface, color, center, radius, dash_length=10, gap_length=10, width=1):
+    total_circumference = 2 * math.pi * radius
+    dash_count = int(total_circumference // (dash_length + gap_length))
+
+    for i in range(dash_count):
+        start_angle = (i * (dash_length + gap_length)) / radius
+        end_angle = start_angle + dash_length / radius
+        pygame.draw.arc(surface, color, 
+                        (center[0] - radius, center[1] - radius, radius * 2, radius * 2), 
+                        start_angle, end_angle, width)
+
 screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 width, height = screen.get_size()
 pygame.display.set_caption("CricField")
 
-ball_radius = 20
+ball_radius = 10
 ball_color = (255, 255, 255)
 speed = 5
 clock = pygame.time.Clock()
 
 field_center = (width // 2, height // 2)
 field_radius = height // 2
+inner_ring_radius = height // 4
+pitch_width = width // 15
+pitch_height = height // 4
 
 balls = []
 
@@ -23,6 +38,11 @@ while running:
     screen.fill((200, 220, 255))
 
     pygame.draw.circle(screen, (0, 100, 0), field_center, field_radius, 0)
+    draw_dashed_circle(screen, (255, 255, 255), field_center, inner_ring_radius, dash_length=15, gap_length=10, width=3)
+
+    pitch_rect = pygame.Rect(0, 0, pitch_width, pitch_height)
+    pitch_rect.center = field_center
+    pygame.draw.rect(screen, (150, 75, 0), pitch_rect)
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
