@@ -11,9 +11,11 @@ ball_radius = 20
 
 xpos = width // 2
 ypos = height // 2
-speed = 5  
+speed = 5
 
-clock = pygame.time.Clock()  
+selected = False  # Ball is not selected initially
+
+clock = pygame.time.Clock()
 
 running = True
 while running:
@@ -23,22 +25,35 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            mouse_x, mouse_y = event.pos
+            dx = mouse_x - xpos
+            dy = mouse_y - ypos
+            distance_squared = dx * dx + dy * dy
+
+            selected = distance_squared <= ball_radius * ball_radius
+
+
     keys = pygame.key.get_pressed()
-    if keys[pygame.K_DOWN]:
-        ypos += speed
-    if keys[pygame.K_UP]:
-        ypos -= speed
-    if keys[pygame.K_LEFT]:
-        xpos -= speed
-    if keys[pygame.K_RIGHT]:
-        xpos += speed
+    if selected:
+        if keys[pygame.K_DOWN]:
+            ypos += speed
+        if keys[pygame.K_UP]:
+            ypos -= speed
+        if keys[pygame.K_LEFT]:
+            xpos -= speed
+        if keys[pygame.K_RIGHT]:
+            xpos += speed
 
     xpos = max(ball_radius, min(width - ball_radius, xpos))
     ypos = max(ball_radius, min(height - ball_radius, ypos))
 
     pygame.draw.circle(screen, ball_color, (xpos, ypos), ball_radius)
-    pygame.display.flip()
 
-    clock.tick(60)  
+    if selected:
+        pygame.draw.circle(screen, (0, 0, 0), (xpos, ypos), ball_radius + 3, 2)
+
+    pygame.display.flip()
+    clock.tick(60)
 
 pygame.quit()
