@@ -7,6 +7,7 @@ game_config = {
     "outer_fielders": 4,
     "speed": 5,
     "fullscreen": True,
+    "batter_handedness": "RHB"
 }
 
 menu = None
@@ -49,15 +50,23 @@ def run_settings_menu():
         onchange=lambda _, val: update("fullscreen", val)
     )
 
+    menu.add.selector(
+        "Batter: ",
+        [("Right-Handed", "RHB"), ("Left-Handed", "LHB")],
+        onchange=lambda _, val: update("batter_handedness", val)
+    )
+
     menu.add.button("Start Game", start_game)
     menu.add.button("Quit", pygame_menu.events.EXIT)
 
-    menu.mainloop(surface)
-    exit()
+    try:
+        menu.mainloop(surface)
+    except Exception:
+        pass
+
 
 def update_num_players(value):
     game_config["num_players"] = int(value)
-
     max_outer = game_config["num_players"] - 2
     add_outer_fielder_slider(max_value=max_outer)
 
@@ -90,5 +99,6 @@ def start_game():
     config.NUM_PLAYERS = game_config["num_players"]
     config.NUM_OUTER_RING_PLAYERS = game_config["outer_fielders"]
     constants.SPEED = game_config["speed"]
+    config.BATTER_HANDEDNESS = game_config["batter_handedness"]
 
     run_game(fullscreen=game_config["fullscreen"])
