@@ -1,0 +1,24 @@
+# General
+NUM_PLAYERS = 4
+SPEED = 5
+
+# Colors
+BALL_COLOR = (255, 255, 255)
+STATIC_BALL_COLOR = (255, 215, 0)
+FIELD_COLOR = (0, 100, 0)
+BACKGROUND_COLOR = (200, 220, 255)
+HIGHLIGHT_COLOR = (255, 0, 0)
+BORDER_COLOR = (0, 0, 0)
+TEXT_COLOR = (0, 0, 0)
+DASH_COLOR = (255, 255, 255)
+
+# Sizes (ball, pitch, rings)
+BALL_RADIUS = 10
+DASH_LENGTH = 15
+GAP_LENGTH = 10
+PITCH_WIDTH_FACTOR = 15  # width // this
+PITCH_HEIGHT_FACTOR = 4  # height // this
+INNER_RING_RADIUS_FACTOR = 4  # height // this
+FIELD_RADIUS_FACTOR = 2  # height // this
+FONT_NAME = "Arial"
+FONT_SIZE = 20
