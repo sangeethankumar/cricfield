@@ -22,3 +22,15 @@ PITCH_COLOR = (150, 75, 0)
 # Font settings
 FONT_NAME = "Arial"
 FONT_SIZE = 20
+
+# Common fielding positions: (Label, Angle in degrees, Distance fraction of field radius)
+BASE_FIELD_POSITIONS = [
+    ("Third Man", -135, 0.95),
+    ("Point", -110, 0.5),
+    ("Cover", -90, 0.5),
+    ("Mid-Off", -45, 0.5),
+    ("Mid-On", 45, 0.5),
+    ("Mid-Wicket", 90, 0.5),
+    ("Square Leg", 110, 0.5),
+    ("Fine Leg", 135, 0.95),
+]

@@ -1,6 +1,6 @@
 import pygame
 import math
-from domain import constants
+from domain import constants, config
 
 class FieldRenderer:
     def __init__(self, field_center, field_radius, inner_ring_radius, pitch_rect, ball_radius):
@@ -80,31 +80,17 @@ class FieldRenderer:
         screen.blit(bowler, (mid_x - bowler.get_width() // 2, bot_y + 10))
 
     def _draw_common_positions(self, screen, font):
-        import math
-        from domain import config
-
-        base_positions = [
-            ("Third Man", -135, 0.95),
-            ("Point", -110, 0.5),
-            ("Cover", -90, 0.5),
-            ("Mid-Off", -45, 0.5),
-            ("Mid-On", 45, 0.5),
-            ("Mid-Wicket", 90, 0.5),
-            ("Square Leg", 110, 0.5),
-            ("Fine Leg", 135, 0.95),
-        ]
-
         flip_x = config.BATTER_HANDEDNESS == "LHB"
         positions = []
 
-        for label, angle_deg, frac in base_positions:
+        for label, angle_deg, frac in constants.BASE_FIELD_POSITIONS:
             angle_rad = math.radians(angle_deg)
 
             dx = math.sin(angle_rad) * self.radius * frac
             dy = math.cos(angle_rad) * self.radius * frac
 
             if flip_x:
-                dx = -dx  # only flip x-axis for LHB
+                dx = -dx
 
             x = int(self.center[0] + dx)
             y = int(self.center[1] + dy)
