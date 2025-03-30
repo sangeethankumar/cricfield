@@ -64,7 +64,8 @@ def run_game(fullscreen=True):
             "right": keys_pressed[pygame.K_RIGHT]
         }
 
-        logic.move_selected(keys, field_center, field_radius)
+        logic.move_selected(keys, field_center, field_radius, inner_ring_radius)
+
         renderer.draw_fielders(screen, logic.get_fielders())
 
         pygame.display.flip()
