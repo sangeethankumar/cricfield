@@ -8,9 +8,20 @@ def draw_dashed_circle(surface, color, center, radius, dash_length=10, gap_lengt
     for i in range(dash_count):
         start_angle = (i * (dash_length + gap_length)) / radius
         end_angle = start_angle + dash_length / radius
-        pygame.draw.arc(surface, color, 
-                        (center[0] - radius, center[1] - radius, radius * 2, radius * 2), 
+        pygame.draw.arc(surface, color,
+                        (center[0] - radius, center[1] - radius, radius * 2, radius * 2),
                         start_angle, end_angle, width)
+
+def draw_stumps(surface, base_x, base_y, up=True):
+    stump_width = 2
+    stump_height = 12
+    stump_spacing = 6
+
+    for i in range(-1, 2):  
+        x = base_x + i * stump_spacing
+        y1 = base_y
+        y2 = base_y - stump_height if up else base_y + stump_height
+        pygame.draw.line(surface, (255, 255, 255), (x, y1), (x, y2), stump_width)
 
 def draw_static_elements(screen, field_center, field_radius, inner_ring_radius, pitch_rect, ball_radius, font):
     pygame.draw.circle(screen, (0, 100, 0), field_center, field_radius, 0)
@@ -30,6 +41,9 @@ def draw_static_elements(screen, field_center, field_radius, inner_ring_radius, 
     pygame.draw.circle(screen, static_ball_color, top_of_pitch, ball_radius)
     pygame.draw.circle(screen, static_ball_color, bottom_of_pitch, ball_radius)
 
+    draw_stumps(screen, pitch_rect.centerx, pitch_rect.top, up=True)
+    draw_stumps(screen, pitch_rect.centerx, pitch_rect.bottom, up=True)
+ 
     wk_text = font.render("WK", True, (0, 0, 0))
     bowler_text = font.render("Bowler", True, (0, 0, 0))
     screen.blit(wk_text, (top_of_pitch[0] - wk_text.get_width() // 2, top_of_pitch[1] - 25))
