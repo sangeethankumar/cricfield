@@ -1,12 +1,18 @@
 import pygame
-from domain import constants
+from domain import config, constants
 from core.fielder_logic import FielderLogic
 from adapters.fielder_drawer import FielderDrawer
 from adapters.cricfield_design import draw_static_elements
 
-def run_game():
+
+def run_game(fullscreen=True):
     pygame.init()
-    screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+
+    if fullscreen:
+        screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+    else:
+        screen = pygame.display.set_mode((1000, 700))  
+
     WIDTH, HEIGHT = screen.get_size()
     pygame.display.set_caption("CricField")
 
@@ -24,20 +30,29 @@ def run_game():
 
     logic = FielderLogic()
     renderer = FielderDrawer()
+
     clock = pygame.time.Clock()
     running = True
 
     while running:
         screen.fill(constants.BACKGROUND_COLOR)
 
-        draw_static_elements(screen, field_center, field_radius, inner_ring_radius,
-                             pitch_rect, constants.BALL_RADIUS, font)
+        draw_static_elements(
+            screen,
+            field_center,
+            field_radius,
+            inner_ring_radius,
+            pitch_rect,
+            constants.BALL_RADIUS,
+            font
+        )
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT or (
                 event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE
             ):
                 running = False
+
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 logic.handle_click(event.pos, field_center, field_radius, inner_ring_radius)
 
@@ -56,3 +71,4 @@ def run_game():
         clock.tick(60)
 
     pygame.quit()
+    exit()

@@ -1,4 +1,4 @@
-from adapters.pygame_ui import run_game
+from adapters.settings_menu import run_settings_menu
 
 if __name__ == "__main__":
-    run_game()
+    run_settings_menu()
