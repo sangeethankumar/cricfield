@@ -11,10 +11,7 @@ ball_color = (255, 255, 255)
 speed = 5
 clock = pygame.time.Clock()
 
-balls = [
-    {"x": width // 3, "y": height // 2, "selected": False},
-    {"x": 2 * width // 3, "y": height // 2, "selected": False}
-]
+balls = []  
 
 running = True
 while running:
@@ -26,24 +23,30 @@ while running:
 
         elif event.type == pygame.MOUSEBUTTONDOWN:
             mouse_x, mouse_y = event.pos
-            clicked_on_any = False
 
-            for ball in balls:
-                dx = mouse_x - ball["x"]
-                dy = mouse_y - ball["y"]
-                distance_squared = dx * dx + dy * dy
-
-                if distance_squared <= ball_radius * ball_radius:
-                    clicked_on_any = True
-                    for b in balls:
-                        b["selected"] = False
-                    ball["selected"] = True
-                    break  
-
-            if not clicked_on_any:
+            if len(balls) < 2:
+                balls.append({
+                    "x": mouse_x,
+                    "y": mouse_y,
+                    "selected": False
+                })
+            else:
+                clicked_on_any = False
                 for ball in balls:
-                    ball["selected"] = False
-                        
+                    dx = mouse_x - ball["x"]
+                    dy = mouse_y - ball["y"]
+                    distance_squared = dx * dx + dy * dy
+
+                    if distance_squared <= ball_radius * ball_radius:
+                        clicked_on_any = True
+                        for b in balls:
+                            b["selected"] = False
+                        ball["selected"] = True
+                        break
+
+                if not clicked_on_any:
+                    for ball in balls:
+                        ball["selected"] = False
 
     keys = pygame.key.get_pressed()
     for ball in balls:
