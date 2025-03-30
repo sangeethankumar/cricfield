@@ -1,8 +1,8 @@
 import pygame
-from domain import config, constants
+from domain import constants
 from core.fielder_logic import FielderLogic
 from adapters.fielder_drawer import FielderDrawer
-from adapters.cricfield_design import draw_static_elements
+from adapters.cricfield_design import FieldRenderer
 
 
 def run_game(fullscreen=True):
@@ -11,7 +11,7 @@ def run_game(fullscreen=True):
     if fullscreen:
         screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
     else:
-        screen = pygame.display.set_mode((1000, 700))  
+        screen = pygame.display.set_mode((1000, 700))
 
     WIDTH, HEIGHT = screen.get_size()
     pygame.display.set_caption("CricField")
@@ -28,6 +28,13 @@ def run_game(fullscreen=True):
     pitch_rect = pygame.Rect(0, 0, pitch_width, pitch_height)
     pitch_rect.center = field_center
 
+    field_renderer = FieldRenderer(
+        field_center,
+        field_radius,
+        inner_ring_radius,
+        pitch_rect,
+        constants.BALL_RADIUS
+    )
     logic = FielderLogic()
     renderer = FielderDrawer()
 
@@ -37,15 +44,7 @@ def run_game(fullscreen=True):
     while running:
         screen.fill(constants.BACKGROUND_COLOR)
 
-        draw_static_elements(
-            screen,
-            field_center,
-            field_radius,
-            inner_ring_radius,
-            pitch_rect,
-            constants.BALL_RADIUS,
-            font
-        )
+        field_renderer.draw(screen, font)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT or (
@@ -63,7 +62,6 @@ def run_game(fullscreen=True):
             "left": keys_pressed[pygame.K_LEFT],
             "right": keys_pressed[pygame.K_RIGHT]
         }
-
         logic.move_selected(keys, field_center, field_radius, inner_ring_radius)
 
         renderer.draw_fielders(screen, logic.get_fielders())
