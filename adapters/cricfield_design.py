@@ -1,9 +1,31 @@
+"""
+Field rendering module for CricField.
+
+This module defines the FieldRenderer class, which draws static elements of the cricket field
+such as the outer boundary, inner ring, pitch, stumps, creases, and reference fielding positions
+based on batter handedness.
+"""
+
 import pygame
 import math
 from domain import constants, config
 
 class FieldRenderer:
+    """
+    Responsible for rendering static elements of the cricket field using Pygame.
+    """
+
     def __init__(self, field_center, field_radius, inner_ring_radius, pitch_rect, ball_radius):
+        """
+        Initializes the FieldRenderer with key layout and sizing values.
+
+        Args:
+            field_center (tuple): Center coordinates of the field (x, y).
+            field_radius (int): Radius of the outer field boundary.
+            inner_ring_radius (int): Radius of the inner circle.
+            pitch_rect (pygame.Rect): Rectangular area for the pitch.
+            ball_radius (int): Radius for drawing player position indicators.
+        """
         self.center = field_center
         self.radius = field_radius
         self.inner_radius = inner_ring_radius
@@ -11,6 +33,13 @@ class FieldRenderer:
         self.ball_radius = ball_radius
 
     def draw(self, screen, font):
+        """
+        Draws the entire field layout including all static components.
+
+        Args:
+            screen (pygame.Surface): Pygame surface to draw onto.
+            font (pygame.font.Font): Font object used to render labels.
+        """
         self._draw_field(screen)
         self._draw_inner_ring(screen)
         self._draw_pitch(screen)
@@ -21,9 +50,21 @@ class FieldRenderer:
         self._draw_common_positions(screen, font)
 
     def _draw_field(self, screen):
+        """
+        Draws the outer circular field boundary.
+
+        Args:
+            screen (pygame.Surface): Surface to draw on.
+        """
         pygame.draw.circle(screen, constants.FIELD_COLOR, self.center, self.radius)
 
     def _draw_inner_ring(self, screen):
+        """
+        Draws the dashed inner circle to represent the inner ring.
+
+        Args:
+            screen (pygame.Surface): Surface to draw on.
+        """
         total_circ = 2 * math.pi * self.inner_radius
         dash_len, gap_len = 15, 10
         dash_count = int(total_circ // (dash_len + gap_len))
@@ -36,9 +77,21 @@ class FieldRenderer:
                             start_angle, end_angle, 3)
 
     def _draw_pitch(self, screen):
+        """
+        Draws the central pitch rectangle.
+
+        Args:
+            screen (pygame.Surface): Surface to draw on.
+        """
         pygame.draw.rect(screen, constants.PITCH_COLOR, self.pitch)
 
     def _draw_creases(self, screen):
+        """
+        Draws the creases on the top and bottom ends of the pitch.
+
+        Args:
+            screen (pygame.Surface): Surface to draw on.
+        """
         offset = 25
         half = self.pitch.width // 2 + 10
         top = self.pitch.top + offset
@@ -49,12 +102,24 @@ class FieldRenderer:
                          (self.center[0] + half, bottom), 2)
 
     def _draw_static_players(self, screen):
+        """
+        Draws the static bowler and wicketkeeper positions as filled circles.
+
+        Args:
+            screen (pygame.Surface): Surface to draw on.
+        """
         top = (self.pitch.centerx, self.pitch.top)
         bottom = (self.pitch.centerx, self.pitch.bottom)
         pygame.draw.circle(screen, constants.STATIC_BALL_COLOR, top, self.ball_radius)
         pygame.draw.circle(screen, constants.STATIC_BALL_COLOR, bottom, self.ball_radius)
 
     def _draw_stumps(self, screen):
+        """
+        Draws stumps at both ends of the pitch.
+
+        Args:
+            screen (pygame.Surface): Surface to draw on.
+        """
         def draw_stump_set(base_x, base_y, up=True):
             width = 2
             height = 12
@@ -69,6 +134,13 @@ class FieldRenderer:
         draw_stump_set(self.pitch.centerx, self.pitch.bottom, up=True)
 
     def _draw_labels(self, screen, font):
+        """
+        Draws labels for the WK and Bowler above and below the pitch.
+
+        Args:
+            screen (pygame.Surface): Surface to draw on.
+            font (pygame.font.Font): Font for text rendering.
+        """
         mid_x = self.pitch.centerx
         top_y = self.pitch.top
         bot_y = self.pitch.bottom
@@ -80,6 +152,15 @@ class FieldRenderer:
         screen.blit(bowler, (mid_x - bowler.get_width() // 2, bot_y + 10))
 
     def _draw_common_positions(self, screen, font):
+        """
+        Draws outlines and labels for commonly used fielding positions.
+
+        Field positions are flipped horizontally for left-handed batters.
+
+        Args:
+            screen (pygame.Surface): Surface to draw on.
+            font (pygame.font.Font): Font for label rendering.
+        """
         flip_x = config.BATTER_HANDEDNESS == "LHB"
         positions = []
 
