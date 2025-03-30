@@ -1,7 +1,7 @@
 import pygame
 from cricfield_design import draw_static_elements
 import config
-import fielders 
+import fielders
 
 pygame.init()
 
@@ -43,7 +43,7 @@ while running:
         elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
             running = False
         elif event.type == pygame.MOUSEBUTTONDOWN:
-            fielders.handle_mouse_click(event.pos, FIELD_CENTER, FIELD_RADIUS)
+            fielders.handle_mouse_click(event.pos, FIELD_CENTER, FIELD_RADIUS, INNER_RING_RADIUS)
 
     keys = pygame.key.get_pressed()
     fielders.move_selected(keys, FIELD_CENTER, FIELD_RADIUS)
