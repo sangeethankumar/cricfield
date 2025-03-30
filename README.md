@@ -9,7 +9,7 @@
 
 ## 📦 Features
 
-- Add and move
+- Add and move fielders
 - Enforces field restrictions (e.g., number of players outside inner ring)
 - Right/Left-handed batter support
 - Visual guide to standard fielding positions
