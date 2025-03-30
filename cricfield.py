@@ -7,7 +7,7 @@ screen = pygame.display.set_mode((width, height))
 pygame.display.set_caption("CricField")
 
 ball_radius = 20
-ball_color = (255, 0, 0)
+ball_color = (255, 255, 255)
 speed = 5
 clock = pygame.time.Clock()
 
@@ -63,6 +63,7 @@ while running:
         pygame.draw.circle(screen, ball_color, (ball["x"], ball["y"]), ball_radius)
 
         if ball["selected"]:
+            pygame.draw.circle(screen, (255, 0, 0), (ball["x"], ball["y"]), ball_radius)
             pygame.draw.circle(screen, (0, 0, 0), (ball["x"], ball["y"]), ball_radius + 3, 2)
 
     pygame.display.flip()
