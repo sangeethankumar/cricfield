@@ -76,7 +76,8 @@ def run_game(fullscreen=True):
             max_outer=config.NUM_OUTER_RING_PLAYERS,
             field_center=field_center,
             inner_ring_radius=inner_ring_radius,
-            handedness=config.BATTER_HANDEDNESS
+            handedness=config.BATTER_HANDEDNESS,
+            field_radius=field_radius
         )
 
         pygame.display.flip()
