@@ -1,7 +1,8 @@
 import pygame
-from cricfield_design import draw_static_elements
 import config
+import constants
 import fielders
+from cricfield_design import draw_static_elements
 
 pygame.init()
 
@@ -10,13 +11,13 @@ WIDTH, HEIGHT = screen.get_size()
 pygame.display.set_caption("CricField")
 
 pygame.font.init()
-FONT = pygame.font.SysFont(config.FONT_NAME, config.FONT_SIZE, bold=True)
+FONT = pygame.font.SysFont(constants.FONT_NAME, constants.FONT_SIZE, bold=True)
 
 FIELD_CENTER = (WIDTH // 2, HEIGHT // 2)
-FIELD_RADIUS = HEIGHT // config.FIELD_RADIUS_FACTOR
-INNER_RING_RADIUS = HEIGHT // config.INNER_RING_RADIUS_FACTOR
-PITCH_WIDTH = WIDTH // config.PITCH_WIDTH_FACTOR
-PITCH_HEIGHT = HEIGHT // config.PITCH_HEIGHT_FACTOR
+FIELD_RADIUS = HEIGHT // constants.FIELD_RADIUS_FACTOR
+INNER_RING_RADIUS = HEIGHT // constants.INNER_RING_RADIUS_FACTOR
+PITCH_WIDTH = WIDTH // constants.PITCH_WIDTH_FACTOR
+PITCH_HEIGHT = HEIGHT // constants.PITCH_HEIGHT_FACTOR
 
 PITCH_RECT = pygame.Rect(0, 0, PITCH_WIDTH, PITCH_HEIGHT)
 PITCH_RECT.center = FIELD_CENTER
@@ -25,7 +26,7 @@ clock = pygame.time.Clock()
 running = True
 
 while running:
-    screen.fill(config.BACKGROUND_COLOR)
+    screen.fill(constants.BACKGROUND_COLOR)
 
     draw_static_elements(
         screen,
@@ -33,7 +34,7 @@ while running:
         FIELD_RADIUS,
         INNER_RING_RADIUS,
         PITCH_RECT,
-        config.BALL_RADIUS,
+        constants.BALL_RADIUS,
         FONT
     )
 
