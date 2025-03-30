@@ -2,54 +2,43 @@ import pygame
 
 pygame.init()
 
-# screen properties
 width, height = 640, 480
 screen = pygame.display.set_mode((width, height))
 pygame.display.set_caption("CricField")
 
-# ball properties
 ball_color = (255, 0, 0)
 ball_radius = 20
 
-xpos_init = width // 2
-ypos_init = height // 2
+xpos = width // 2
+ypos = height // 2
+speed = 5  
 
-dh = 0
-dw = 0
-xpos = xpos_init
-ypos = ypos_init
+clock = pygame.time.Clock()  
 
 running = True
 while running:
-    # background color
     screen.fill((200, 220, 255))
-    ball_position = (xpos, ypos)
-    pygame.draw.circle(screen, ball_color, ball_position, ball_radius )
 
-    # loop
     for event in pygame.event.get():
-
         if event.type == pygame.QUIT:
             running = False
-        
-        keys = pygame.key.get_pressed()
-        if keys[pygame.K_DOWN]:
-            dh = 100
-            ypos = ypos + dh if (ypos + dh) < height else ypos_init
-        if keys[pygame.K_UP]:
-            dh = -100
-            ypos = ypos + dh if (ypos + dh) > 0 else ypos_init
-        if keys[pygame.K_LEFT]:
-            dw = -100
-            xpos = xpos + dw if (xpos + dw) > 0 else xpos_init
-        if keys[pygame.K_RIGHT]:
-            dw = 100
-            xpos = xpos + dw if (xpos + dw) < width else xpos_init
 
-        ball_position = (xpos, ypos)
-        pygame.draw.circle(screen, ball_color, ball_position, ball_radius)
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_DOWN]:
+        ypos += speed
+    if keys[pygame.K_UP]:
+        ypos -= speed
+    if keys[pygame.K_LEFT]:
+        xpos -= speed
+    if keys[pygame.K_RIGHT]:
+        xpos += speed
 
-    # update display
+    xpos = max(ball_radius, min(width - ball_radius, xpos))
+    ypos = max(ball_radius, min(height - ball_radius, ypos))
+
+    pygame.draw.circle(screen, ball_color, (xpos, ypos), ball_radius)
     pygame.display.flip()
+
+    clock.tick(60)  
 
 pygame.quit()
