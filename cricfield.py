@@ -35,10 +35,17 @@ while running:
         keys = pygame.key.get_pressed()
         if keys[pygame.K_DOWN]:
             dh = 100
-            ypos = ypos + dh if (ypos + dh) < width else ypos_init
+            ypos = ypos + dh if (ypos + dh) < height else ypos_init
         if keys[pygame.K_UP]:
             dh = -100
             ypos = ypos + dh if (ypos + dh) > 0 else ypos_init
+        if keys[pygame.K_LEFT]:
+            dw = -100
+            xpos = xpos + dw if (xpos + dw) > 0 else xpos_init
+        if keys[pygame.K_RIGHT]:
+            dw = 100
+            xpos = xpos + dw if (xpos + dw) < width else xpos_init
+
         ball_position = (xpos, ypos)
         pygame.draw.circle(screen, ball_color, ball_position, ball_radius)
 
