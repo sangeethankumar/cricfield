@@ -9,9 +9,8 @@ on the screen during gameplay. These overlays include:
 - Basic instructions (controls)
 """
 
-import pygame
 import math
-from domain.constants import TEXT_COLOR, BASE_FIELD_POSITIONS
+from cricfield.domain.constants import TEXT_COLOR, BASE_FIELD_POSITIONS
 
 class HUDRenderer:
     """

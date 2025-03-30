@@ -6,8 +6,8 @@ fielders are added, selected, and moved on the field, including constraints
 on ring boundaries and player limits.
 """
 
-from domain import config, constants
-from core.interfaces import FielderLogicInterface
+from cricfield.domain import config, constants
+from cricfield.core.interfaces import FielderLogicInterface
 
 class FielderLogic(FielderLogicInterface):
     """

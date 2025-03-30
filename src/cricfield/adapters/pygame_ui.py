@@ -6,11 +6,11 @@ user input for placing/moving players, and the game HUD display.
 """
 
 import pygame
-from domain import constants, config
-from core.fielder_logic import FielderLogic
-from adapters.fielder_drawer import FielderDrawer
-from adapters.cricfield_design import FieldRenderer
-from adapters.hud_renderer import HUDRenderer
+from cricfield.domain import constants, config
+from cricfield.core.fielder_logic import FielderLogic
+from cricfield.adapters.fielder_drawer import FielderDrawer
+from cricfield.adapters.cricfield_design import FieldRenderer
+from cricfield.adapters.hud_renderer import HUDRenderer
 
 def run_game(fullscreen=True):
     """

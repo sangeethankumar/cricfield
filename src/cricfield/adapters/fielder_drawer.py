@@ -6,8 +6,8 @@ the fielders on the screen, including selection highlights.
 """
 
 import pygame
-from domain import constants
-from core.interfaces import RendererInterface
+from cricfield.domain import constants
+from cricfield.core.interfaces import RendererInterface
 
 class FielderDrawer(RendererInterface):
     """

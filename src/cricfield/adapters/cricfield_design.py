@@ -8,7 +8,7 @@ based on batter handedness.
 
 import pygame
 import math
-from domain import constants, config
+from cricfield.domain import constants, config
 
 class FieldRenderer:
     """

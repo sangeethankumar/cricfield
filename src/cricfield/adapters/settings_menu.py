@@ -13,7 +13,9 @@ The settings are applied globally before launching the game loop.
 
 import pygame
 import pygame_menu
-from adapters.pygame_ui import run_game
+from cricfield.adapters.pygame_ui import run_game
+from cricfield.domain import config, constants
+
 
 # Holds selected configuration values
 game_config = {
@@ -146,7 +148,6 @@ def start_game():
     """
     Applies selected settings to the game's configuration and launches CricField.
     """
-    from domain import config, constants
 
     config.NUM_PLAYERS = game_config["num_players"]
     config.NUM_OUTER_RING_PLAYERS = game_config["outer_fielders"]
