@@ -1,8 +1,8 @@
 import pygame
 from domain import constants
-from core import fielder_logic
+from core.fielder_logic import FielderLogic
+from adapters.fielder_drawer import FielderDrawer
 from adapters.cricfield_design import draw_static_elements
-from adapters.fielder_drawer import draw_fielders
 
 def run_game():
     pygame.init()
@@ -13,23 +13,25 @@ def run_game():
     pygame.font.init()
     font = pygame.font.SysFont(constants.FONT_NAME, constants.FONT_SIZE, bold=True)
 
-    FIELD_CENTER = (WIDTH // 2, HEIGHT // 2)
-    FIELD_RADIUS = HEIGHT // constants.FIELD_RADIUS_FACTOR
-    INNER_RING_RADIUS = HEIGHT // constants.INNER_RING_RADIUS_FACTOR
-    PITCH_WIDTH = WIDTH // constants.PITCH_WIDTH_FACTOR
-    PITCH_HEIGHT = HEIGHT // constants.PITCH_HEIGHT_FACTOR
+    field_center = (WIDTH // 2, HEIGHT // 2)
+    field_radius = HEIGHT // constants.FIELD_RADIUS_FACTOR
+    inner_ring_radius = HEIGHT // constants.INNER_RING_RADIUS_FACTOR
+    pitch_width = WIDTH // constants.PITCH_WIDTH_FACTOR
+    pitch_height = HEIGHT // constants.PITCH_HEIGHT_FACTOR
 
-    PITCH_RECT = pygame.Rect(0, 0, PITCH_WIDTH, PITCH_HEIGHT)
-    PITCH_RECT.center = FIELD_CENTER
+    pitch_rect = pygame.Rect(0, 0, pitch_width, pitch_height)
+    pitch_rect.center = field_center
 
+    logic = FielderLogic()
+    renderer = FielderDrawer()
     clock = pygame.time.Clock()
     running = True
 
     while running:
         screen.fill(constants.BACKGROUND_COLOR)
 
-        draw_static_elements(screen, FIELD_CENTER, FIELD_RADIUS, INNER_RING_RADIUS,
-                             PITCH_RECT, constants.BALL_RADIUS, font)
+        draw_static_elements(screen, field_center, field_radius, inner_ring_radius,
+                             pitch_rect, constants.BALL_RADIUS, font)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT or (
@@ -37,7 +39,7 @@ def run_game():
             ):
                 running = False
             elif event.type == pygame.MOUSEBUTTONDOWN:
-                fielder_logic.handle_click(event.pos, FIELD_CENTER, FIELD_RADIUS, INNER_RING_RADIUS)
+                logic.handle_click(event.pos, field_center, field_radius, inner_ring_radius)
 
         keys_pressed = pygame.key.get_pressed()
         keys = {
@@ -47,8 +49,8 @@ def run_game():
             "right": keys_pressed[pygame.K_RIGHT]
         }
 
-        fielder_logic.move_selected(keys, FIELD_CENTER, FIELD_RADIUS)
-        draw_fielders(screen)
+        logic.move_selected(keys, field_center, field_radius)
+        renderer.draw_fielders(screen, logic.get_fielders())
 
         pygame.display.flip()
         clock.tick(60)
