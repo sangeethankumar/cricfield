@@ -3,8 +3,6 @@
 
 **CricField** is an interactive visualizer for placing cricket fielders on a ground. Designed just for fun exploration.
 
-**Made with ❤️ and a love for cricket**
-
 ---
 
 ## 📦 Features
@@ -113,12 +111,6 @@ This project is modular and extensible. To make changes:
 
 1. Modify code inside `src/cricfield/`
 2. Run `cricfield` again — no reinstall needed!
-
----
-
-## 📃 License
-
-MIT License. Use it, modify it, fork it — just give credit.
 
 ---
 
